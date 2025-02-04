@@ -1,0 +1,29 @@
+<div class="content">
+    <app-titulo-pagina titulo="Adicionar Pessoa" />
+
+    <div class="mx-3 mb-3">
+        <p-stepper [linear]="true">
+            <p-stepperPanel header="Dados Cadastrais">
+                <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+                    <div class="flex flex-column h-12rem">
+                        <app-dados-cadastrais [idPessoa]="idPessoa" (salvouDadosCadastrais)="nextCallback.emit()"></app-dados-cadastrais>
+                    </div>
+                </ng-template>
+            </p-stepperPanel>
+            <p-stepperPanel header="Dados de Contato">
+                <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+                    <div class="flex flex-column h-12rem">
+                        <app-dados-contato [idPessoa]="idPessoa" (clicouBtnAnterior)="prevCallback.emit()" (salvouDadosDeContato)="nextCallback.emit()"></app-dados-contato>
+                    </div>
+                </ng-template>
+            </p-stepperPanel>
+            <p-stepperPanel header="Dados de Endereço">
+                <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+                    <div class="flex flex-column h-12rem">
+                        <app-dados-endereco [idPessoa]="idPessoa" (clicouBtnAnterior)="prevCallback.emit()"></app-dados-endereco>
+                    </div>
+                </ng-template>
+            </p-stepperPanel>
+        </p-stepper>
+    </div>
+</div>

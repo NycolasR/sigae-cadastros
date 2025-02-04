@@ -1,0 +1,97 @@
+<div class="form-dados-contato-content">
+  <form [formGroup]="formDadosContato" (ngSubmit)="salvarDadosContato()">
+    <div class="p-grid p-fluid">
+      <div class="row">
+        <div class="form-group col-12 col-md-6 mb-4">
+          <p-floatLabel>
+            <input
+              pInputText
+              id="email-form-dados-contato"
+              formControlName="email"
+            />
+            <label for="email">E-mail *</label>
+          </p-floatLabel>
+          <app-mensagem-alerta
+            campo="email"
+            mensagem="Este campo é obrigatório."
+            tipoAlerta="required"
+            [formulario]="formDadosContato"
+          />
+          <app-mensagem-alerta
+            campo="email"
+            mensagem="Insira um e-mail válido."
+            tipoAlerta="emailInvalido"
+            [formulario]="formDadosContato"
+          />
+        </div>
+      </div>
+    </div>
+    <div formArrayName="telefones" class="p-grid p-fluid">
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div
+            *ngFor="let telefone of telefones.controls; let i = index"
+            [formGroupName]="i"
+            class="form-group mb-4 d-flex align-items-center"
+          >
+            <div class="flex-grow-1">
+              <p-floatLabel>
+                <p-inputMask
+                  mask="(99) 99999-9999"
+                  id="telefone-{{ i }}"
+                  formControlName="numero"
+                ></p-inputMask>
+                <label for="telefone-{{ i }}">Telefone {{ i + 1 }}</label>
+              </p-floatLabel>
+              <app-mensagem-alerta
+                campo="numero"
+                mensagem="Insira um telefone válido."
+                tipoAlerta="telefoneInvalido"
+                [formulario]="getTelefoneFormGroup(i)"
+              />
+            </div>
+
+            <div class="d-flex" style="width: 60px; justify-content: center">
+              <button
+                type="button"
+                class="btn p-0 me-2"
+                *ngIf="telefones.length > 1"
+                (click)="removerTelefone(i)"
+                pTooltip="Excluir telefone"
+                tooltipPosition="top"
+              >
+                <i class="pi pi-trash"></i>
+              </button>
+              <button
+                type="button"
+                class="btn p-0"
+                *ngIf="i === telefones.length - 1"
+                (click)="adicionarTelefone()"
+                pTooltip="Adicionar telefone"
+                tooltipPosition="top"
+              >
+                <i class="pi pi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="mb-4 mr-4">
+        <button
+          (click)="clicouBtnAnterior.emit(true)"
+          class="btn btn-outline-primary"
+        >
+          <i class="pi pi-arrow-left mr-2"></i> Anterior
+        </button>
+      </div>
+
+      <div class="mb-4">
+        <button type="submit" class="btn btn-primary">
+          Próximo <i class="pi pi-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

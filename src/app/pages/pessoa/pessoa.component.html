@@ -1,0 +1,57 @@
+<div class="content">
+    <app-titulo-pagina titulo="Pessoas" />
+
+    <div class="mx-3 mb-5">
+        <div class="d-flex align-items-center">
+            <button pButton pRipple label="Adicionar" (click)="adicionarPessoa()" class="btn btn-primary w-24"></button>
+            <div style="margin-left: 1rem">
+                <h4 class="fw-semibold">Total de pessoas cadastradas: {{ pessoas.length }}</h4>
+            </div>
+        </div>
+        <div class="border mt-3">
+            <p-table [value]="pessoas" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[5, 10, 20]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th scope="col" [style]="coluna.width" [pSortableColumn]="coluna.field" *ngFor="let coluna of colunas">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="w-fit">{{ coluna.header }}</p>
+                                <p-sortIcon [field]="coluna.field" />
+                            </div>
+                        </th>
+                        <th style="width: 7em">Ações</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-pessoa let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ pessoa.nome }}</td>
+                        <td>{{ pessoa.cpf ?? '-' }}</td>
+                        <td>{{ pessoa.cnpj ?? '-' }}</td>
+                        <td>{{ pessoa.email ?? '-' }}</td>
+                        <td>{{ pessoa.escola.nome ?? '-' }}</td>
+                        <td>
+                            {{ pessoa.endereco?.municipio?.nome || pessoa.endereco?.municipio }}
+                            -
+                            {{ pessoa.endereco?.estado?.sigla || pessoa.endereco?.estado.nome }}
+                        </td>
+                        <td>
+                            <div class="flex-container">
+                                <button class="mr-3" (click)="editarPessoa(pessoa.id)" pTooltip="Editar pessoa" tooltipPosition="top">
+                                    <i class="pi pi-pencil"></i>
+                                </button>
+                                <button (click)="excluirPessoa(pessoa.id)" pTooltip="Excluir pessoa" tooltipPosition="top">
+                                    <i class="pi pi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7" class="text-center">Não existem pessoas cadastradas.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

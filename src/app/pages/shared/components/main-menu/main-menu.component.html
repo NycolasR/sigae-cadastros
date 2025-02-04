@@ -1,0 +1,20 @@
+<div class="card">
+  <p-menubar id="main-menu-opcoes" [model]="items">
+    <ng-template pTemplate="end">
+      <ul>
+        <li role="menuitem" class="p-element p-menuitem">
+          <div class="p-menuitem-content">
+            <a
+              class="p-ripple p-element p-menuitem-link"
+              (click)="alternarEstadoAutenticacao()"
+              ><span class="p-menuitem-icon pi pi-power-off"></span>
+              <span class="p-menuitem-text">{{
+                isUsuarioLogado ? "Sair" : "Login"
+              }}</span></a
+            >
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+  </p-menubar>
+</div>

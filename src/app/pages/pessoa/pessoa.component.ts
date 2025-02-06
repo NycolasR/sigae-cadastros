@@ -10,6 +10,11 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
+import { Estado } from '../shared/models/endereco/estado';
+import { Municipio } from '../shared/models/endereco/municipio';
+import { Escola } from '../shared/models/pessoa/escola';
+import { Telefone } from '../shared/models/pessoa/telefone';
+import { Endereco } from '../shared/models/endereco/endereco';
 
 @Component({
     selector: 'app-pessoa',
@@ -73,11 +78,11 @@ export class PessoaComponent implements OnInit {
     }
 
     adicionarPessoa() {
-        this.router.navigate(['/formulario/adicionar']);
+        this.router.navigate(['/pessoas/formulario/adicionar']);
     }
 
     editarPessoa(idPessoa: number) {
-        this.router.navigate([`/formulario/editar/${idPessoa}`]);
+        this.router.navigate([`/pessoas/formulario/editar/${idPessoa}`]);
     }
 
     excluirPessoa(idPessoa: number): void {

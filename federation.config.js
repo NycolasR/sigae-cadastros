@@ -9,7 +9,30 @@ module.exports = withNativeFederation({
   },
 
   shared: {
-    ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
+    ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto', transient: true }),
+    "@primeng/themes/types": {
+      transient: true,
+      packageInfo: {
+        entryPoint: "node_modules/@primeng/themes/index.mjs",
+        version: "19.0.5",
+        esm: true,
+      },
+    },
+    "@primeng/themes/lara": {
+      singleton: true,
+      strictVersion: true,
+      requiredVersion: "auto",
+      transient: true,
+      includeSecondaries: false,
+      build: "separate",
+    },
+    '@primeng/themes/lara/accordion': {
+      packageInfo: {
+        entryPoint: 'node_modules/@primeng/themes/lara/accordion/index.mjs',
+        version: '19.0.5',
+        esm: true
+      }
+    },
   },
 
   skip: [

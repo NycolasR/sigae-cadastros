@@ -250,7 +250,7 @@ export class DadosEnderecoComponent implements OnInit {
                     if (!this.modoEdicao) {
                         this.pessoaService.finalizarCadastroEmAndamento();
                     }
-                    this.router.navigate(['/pessoa']);
+                    this.router.navigate(['/pessoas']);
                 }
             });
         }

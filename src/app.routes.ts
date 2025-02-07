@@ -5,4 +5,13 @@ import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
 
-export const appRoutes: Routes = [{ path: 'pessoas', loadChildren: () => import('./app/pages/pessoa/pessoa.routes').then((m) => m.default) }];
+export const appRoutes: Routes = [
+    {
+        path: 'pessoas',
+        loadChildren: () => import('./app/pages/pessoa/pessoa.routes').then((m) => m.default)
+    },
+    {
+        path: 'escolas',
+        loadChildren: () => import('./app/pages/escola/escola.routes').then((m) => m.default)
+    }
+];

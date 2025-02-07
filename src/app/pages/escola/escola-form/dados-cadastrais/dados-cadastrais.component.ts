@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { validarCNPJ, validarCPF } from '../../../shared/validadores/documento-validador';
 import { MSG_FORMULARIO_INVALIDO, MSG_PREENCHIMENTO_INCORRETO } from '../../../shared/mensagens/mensagens';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
-import { Pessoa } from '../../../shared/models/pessoa/pessoa';
 import { Router } from '@angular/router';
 import { EscolaService } from '../../../service/escola.service';
 import { Escola } from '../../../shared/models/escola/escola';
@@ -19,7 +18,6 @@ import { RippleModule } from 'primeng/ripple';
 import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
-import { PessoaService } from '../../../service/pessoa.service';
 
 @Component({
     selector: 'app-dados-cadastrais',
@@ -29,19 +27,17 @@ import { PessoaService } from '../../../service/pessoa.service';
     imports: [CommonModule, SharedSigaeModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
 })
 export class DadosCadastraisComponent implements OnInit {
-    pessoa: Pessoa = new Pessoa({});
-    escolas: Escola[] = [];
+    escola: Escola = new Escola({});
     modoEdicao: boolean = false;
     formDadosCadastrais: FormGroup = new FormGroup({});
 
-    idPessoa = input(0);
+    idEscola = input(0);
 
-    salvouDadosCadastrais = output<Pessoa>();
+    salvouDadosCadastrais = output<Escola>();
 
     constructor(
         private readonly router: Router,
         private readonly formBuilder: FormBuilder,
-        private readonly pessoaService: PessoaService,
         private readonly escolaService: EscolaService,
         private readonly messageService: MessageService,
         private readonly formularioService: FormularioService
@@ -49,79 +45,49 @@ export class DadosCadastraisComponent implements OnInit {
 
     ngOnInit(): void {
         this.tratarModoEdicao();
-        this.obterPessoa();
-        this.obterEscolas();
-
-        this.formDadosCadastrais.get('isPessoaJuridica')?.valueChanges.subscribe((isJuridica: boolean) => {
-            this.alternarCamposCpfCanpj(isJuridica);
-        });
+        this.obterEscola();
     }
 
     private tratarModoEdicao(): void {
-        this.modoEdicao = this.idPessoa() !== 0;
+        this.modoEdicao = this.idEscola() !== 0;
     }
 
-    private obterPessoa() {
-        const obterPessoa = this.modoEdicao ? () => this.pessoaService.buscarPorId(this.idPessoa()) : () => this.pessoaService.obterPessoaEmAndamento();
+    private obterEscola() {
+        const obterEscola = this.modoEdicao ? () => this.escolaService.buscarPorId(this.idEscola()) : () => this.escolaService.obterEscolaEmAndamento();
 
-        obterPessoa().subscribe((res: Pessoa | undefined) => {
+        obterEscola().subscribe((res: Escola | undefined) => {
             if (res) {
-                this.pessoa = res;
+                this.escola = res;
                 this.buildForm(res);
             } else {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Houve um erro',
-                    detail: `Não foi possível obter a pessoa com o ID informado.`
+                    detail: `Não foi possível obter a escola com o ID informado.`
                 });
-                this.router.navigate(['/pessoa']);
+                this.router.navigate(['/escolas']);
             }
         });
     }
 
-    private obterEscolas(): void {
-        this.escolaService.listarEscolasCadastradas().subscribe((res: Escola[]) => {
-            this.escolas = res;
-        });
-    }
-
-    private alternarCamposCpfCanpj(isJuridica: boolean) {
-        if (isJuridica) {
-            this.formDadosCadastrais.get('cpf')?.clearValidators();
-            this.formDadosCadastrais.get('cpf')?.setValue(null);
-            this.formDadosCadastrais.get('cnpj')?.setValidators([validarCNPJ()]);
-        } else {
-            this.formDadosCadastrais.get('cnpj')?.clearValidators();
-            this.formDadosCadastrais.get('cnpj')?.setValue(null);
-            this.formDadosCadastrais.get('cpf')?.setValidators([validarCPF()]);
-        }
-
-        this.formDadosCadastrais.get('cpf')?.updateValueAndValidity();
-        this.formDadosCadastrais.get('cnpj')?.updateValueAndValidity();
-    }
-
-    buildForm(pessoa: Pessoa): void {
+    buildForm(escola: Escola): void {
         this.formDadosCadastrais = this.formBuilder.group({
-            nome: [pessoa.nome, Validators.required],
-            nomeSocial: [pessoa.nomeSocial],
-            isPessoaJuridica: [pessoa.isPessoaJuridica],
-            cpf: [pessoa.cpf, pessoa.isPessoaJuridica ? [] : [validarCPF()]],
-            cnpj: [pessoa.cnpj, pessoa.isPessoaJuridica ? [validarCNPJ()] : []],
-            escola: [pessoa.escola, Validators.required]
+            nome: [escola.nome, Validators.required],
+            cnpj: [escola.cnpj, validarCNPJ()]
         });
     }
 
     salvarDadosCadastrais(): void {
         if (this.formularioService.formularioIsValido(this.formDadosCadastrais)) {
-            const atualizarPessoa = this.modoEdicao ? () => this.pessoaService.atualizar(this.idPessoa(), this.formDadosCadastrais.value) : () => this.pessoaService.atualizarPessoaEmAndamento(this.formDadosCadastrais.value);
+            const atualizarEscola = this.modoEdicao ? () => this.escolaService.atualizar(this.idEscola(), this.formDadosCadastrais.value) : () => this.escolaService.atualizarEscolaEmAndamento(this.formDadosCadastrais.value);
 
-            atualizarPessoa().subscribe((res) => {
+            atualizarEscola().subscribe((res) => {
                 if (res) {
                     if (!this.formDadosCadastrais.pristine) {
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Sucesso!',
-                            detail: `Dados da pessoa de nome ${res.nome} salvos com sucesso!`
+                            detail: `Dados da escola de nome ${res.nome} salvos com sucesso!`
                         });
                     }
                     this.salvouDadosCadastrais.emit(res);

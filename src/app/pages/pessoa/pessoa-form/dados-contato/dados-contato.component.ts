@@ -6,7 +6,6 @@ import { MSG_FORMULARIO_INVALIDO, MSG_PREENCHIMENTO_INCORRETO } from '../../../s
 import { validarTelefone } from '../../../shared/validadores/telefone-validador';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 import { Pessoa } from '../../../shared/models/pessoa/pessoa';
-import { PessoaService } from '../../../shared/services/pessoa/pessoa.service';
 import { Telefone } from '../../../shared/models/pessoa/telefone';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -19,6 +18,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
+import { PessoaService } from '../../../service/pessoa.service';
 
 @Component({
     selector: 'app-dados-contato',

@@ -10,7 +10,6 @@ import { DropdownFilterOptions, DropdownModule } from 'primeng/dropdown';
 import { Cep } from '../../../shared/models/endereco/cep';
 import { Municipio } from './../../../shared/models/endereco/municipio';
 import { Pessoa } from '../../../shared/models/pessoa/pessoa';
-import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 import { Endereco } from './../../../shared/models/endereco/endereco';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -24,6 +23,7 @@ import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
 import { PessoaService } from '../../../service/pessoa.service';
+import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 
 @Component({
     selector: 'app-dados-endereco',

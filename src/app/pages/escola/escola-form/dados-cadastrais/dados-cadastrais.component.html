@@ -1,0 +1,28 @@
+<div class="form-dados-cadastrais-content p-grid">
+    <button class="btn btn-primary" style="display: none">Próximo <i class="pi pi-arrow-right ml-2"></i></button>
+    <form [formGroup]="formDadosCadastrais" (ngSubmit)="salvarDadosCadastrais()">
+        <div class="p-grid p-fluid">
+            <div class="row">
+                <div class="form-group col-12 col-sm-6 mb-4">
+                    <p-floatLabel>
+                        <input pInputText id="nome-form-dados-cadastrais" formControlName="nome" />
+                        <label for="nome">Nome *</label>
+                    </p-floatLabel>
+                    <app-mensagem-alerta campo="nome" mensagem="Este campo é obrigatório." tipoAlerta="required" [formulario]="formDadosCadastrais" />
+                </div>
+
+                <div class="form-group col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <p-floatLabel>
+                        <p-inputMask mask="99.999.999/9999-99" id="cnpj-form-dados-cadastrais" formControlName="cnpj"></p-inputMask>
+                        <label for="cnpj">CNPJ *</label>
+                    </p-floatLabel>
+                    <app-mensagem-alerta campo="cnpj" mensagem="Insira um CNPJ válido." tipoAlerta="documentoInvalido" [formulario]="formDadosCadastrais" />
+                </div>
+
+                <div class="form-group col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <button type="submit" class="btn btn-primary">Próximo <i class="pi pi-arrow-right ml-2"></i></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

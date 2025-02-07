@@ -1,9 +1,8 @@
+import { EscolaService } from '../service/escola.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Pessoa } from '../shared/models/pessoa/pessoa';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { PessoaService } from '../service/pessoa.service';
 import { SharedSigaeModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -13,20 +12,19 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Estado } from '../shared/models/endereco/estado';
 import { Municipio } from '../shared/models/endereco/municipio';
 import { Escola } from '../shared/models/escola/escola';
-import { Telefone } from '../shared/models/pessoa/telefone';
 import { Endereco } from '../shared/models/endereco/endereco';
 
 @Component({
-    selector: 'app-pessoa',
-    templateUrl: './pessoa.component.html',
-    styleUrls: ['./pessoa.component.scss'],
+    selector: 'app-escola',
+    templateUrl: './escola.component.html',
+    styleUrls: ['./escola.component.scss'],
     standalone: true,
     imports: [CommonModule, SharedSigaeModule, TableModule, TooltipModule, ButtonModule, RippleModule],
     providers: [MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PessoaComponent implements OnInit {
-    pessoas!: Pessoa[];
+export class EscolaComponent implements OnInit {
+    escolas!: Escola[];
 
     colunas = [
         {
@@ -35,23 +33,8 @@ export class PessoaComponent implements OnInit {
             width: 'width: 15rem'
         },
         {
-            field: 'cpf',
-            header: 'CPF',
-            width: 'width: 15rem'
-        },
-        {
             field: 'cnpj',
             header: 'CNPJ',
-            width: 'width: 15rem'
-        },
-        {
-            field: 'email',
-            header: 'E-mail',
-            width: 'width: 15rem'
-        },
-        {
-            field: 'escola.nome',
-            header: 'Escola',
             width: 'width: 15rem'
         },
         {
@@ -63,37 +46,37 @@ export class PessoaComponent implements OnInit {
 
     constructor(
         private readonly router: Router,
-        private readonly pessoaService: PessoaService,
+        private readonly escolaService: EscolaService,
         private readonly messageService: MessageService
     ) {}
 
     ngOnInit() {
-        this.listarPessoasCadastradas();
+        this.listarEscolasCadastradas();
     }
 
-    listarPessoasCadastradas(): void {
-        this.pessoaService.listarPessoasCadastradas().subscribe((res: Pessoa[]) => {
-            this.pessoas = res;
+    listarEscolasCadastradas(): void {
+        this.escolaService.listarEscolasCadastradas().subscribe((res: Escola[]) => {
+            this.escolas = res;
         });
     }
 
-    adicionarPessoa() {
-        this.router.navigate(['/pessoas/formulario/adicionar']);
+    adicionarEscola() {
+        this.router.navigate(['/escolas/formulario/adicionar']);
     }
 
-    editarPessoa(idPessoa: number) {
-        this.router.navigate([`/pessoas/formulario/editar/${idPessoa}`]);
+    editarEscola(idEscola: number) {
+        this.router.navigate([`/escolas/formulario/editar/${idEscola}`]);
     }
 
-    excluirPessoa(idPessoa: number): void {
-        this.pessoaService.excluir(idPessoa).subscribe((res: boolean) => {
+    excluirEscola(idEscola: number): void {
+        this.escolaService.excluir(idEscola).subscribe((res: boolean) => {
             if (res) {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Sucesso!',
-                    detail: `Pessoa excluída com sucesso!`
+                    detail: `Escola excluída com sucesso!`
                 });
-                this.listarPessoasCadastradas();
+                this.listarEscolasCadastradas();
             }
         });
     }

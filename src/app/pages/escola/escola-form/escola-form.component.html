@@ -1,0 +1,29 @@
+<div class="content">
+    <app-titulo-pagina titulo="Escola - Formulário" />
+
+    <div class="mx-3 mb-3">
+        <p-stepper [value]="1" class="basis-[50rem]">
+            <p-step-list>
+                <p-step [value]="1">Dados Cadastrais</p-step>
+                <p-step [value]="2">Dados de Endereço</p-step>
+            </p-step-list>
+            <p-step-panels>
+                <p-step-panel [value]="1">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="flex flex-column h-12rem">
+                            <app-dados-cadastrais [idEscola]="idEscola" (salvouDadosCadastrais)="activateCallback(2)"></app-dados-cadastrais>
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+
+                <p-step-panel [value]="2">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="flex flex-column h-12rem">
+                            <app-dados-endereco [idEscola]="idEscola" (clicouBtnAnterior)="activateCallback(2)"></app-dados-endereco>
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+            </p-step-panels>
+        </p-stepper>
+    </div>
+</div>

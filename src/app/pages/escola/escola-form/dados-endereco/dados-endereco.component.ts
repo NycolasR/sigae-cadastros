@@ -9,7 +9,7 @@ import { Estado } from '../../../shared/models/endereco/estado';
 import { DropdownFilterOptions, DropdownModule } from 'primeng/dropdown';
 import { Cep } from '../../../shared/models/endereco/cep';
 import { Municipio } from './../../../shared/models/endereco/municipio';
-import { Pessoa } from '../../../shared/models/pessoa/pessoa';
+import { Escola } from '../../../shared/models/escola/escola';
 import { Endereco } from './../../../shared/models/endereco/endereco';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
-import { PessoaService } from '../../../service/pessoa.service';
+import { EscolaService } from '../../../service/escola.service';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 
 @Component({
@@ -33,7 +33,7 @@ import { FormularioService } from '../../../shared/services/formulario/formulari
     imports: [CommonModule, SharedSigaeModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
 })
 export class DadosEnderecoComponent implements OnInit {
-    pessoa: Pessoa = new Pessoa({});
+    escola: Escola = new Escola({});
     modoEdicao: boolean = false;
     isPaisBrasil: boolean = false;
     formDadosEndereco: FormGroup = new FormGroup({});
@@ -42,14 +42,14 @@ export class DadosEnderecoComponent implements OnInit {
     estados: Estado[] = [];
     municipios: Municipio[] = [];
 
-    idPessoa = input(0);
+    idEscola = input(0);
 
     clicouBtnAnterior = output<boolean>();
 
     constructor(
         private readonly router: Router,
         private readonly formBuilder: FormBuilder,
-        private readonly pessoaService: PessoaService,
+        private readonly escolaService: EscolaService,
         private readonly messageService: MessageService,
         private readonly enderecoService: EnderecoService,
         private readonly formularioService: FormularioService
@@ -57,7 +57,7 @@ export class DadosEnderecoComponent implements OnInit {
 
     ngOnInit() {
         this.tratarModoEdicao();
-        this.obterPessoa();
+        this.obterEscola();
         this.consultarPaises();
         this.consultarEstados();
 
@@ -77,15 +77,15 @@ export class DadosEnderecoComponent implements OnInit {
     }
 
     private tratarModoEdicao(): void {
-        this.modoEdicao = this.idPessoa() !== 0;
+        this.modoEdicao = this.idEscola() !== 0;
     }
 
-    private obterPessoa() {
-        const obterPessoa = this.modoEdicao ? () => this.pessoaService.buscarPorId(this.idPessoa()) : () => this.pessoaService.obterPessoaEmAndamento();
+    private obterEscola() {
+        const obterEscola = this.modoEdicao ? () => this.escolaService.buscarPorId(this.idEscola()) : () => this.escolaService.obterEscolaEmAndamento();
 
-        obterPessoa().subscribe((res: Pessoa | undefined) => {
+        obterEscola().subscribe((res: Escola | undefined) => {
             if (res) {
-                this.pessoa = res;
+                this.escola = res;
 
                 if (!!res.endereco) {
                     this.tratarAlteracaoDePais(res.endereco.pais);
@@ -228,17 +228,17 @@ export class DadosEnderecoComponent implements OnInit {
                 );
             }
 
-            const atualizarPessoa = this.modoEdicao
+            const atualizarEscola = this.modoEdicao
                 ? () =>
-                      this.pessoaService.atualizar(this.idPessoa(), {
+                      this.escolaService.atualizar(this.idEscola(), {
                           endereco: this.formDadosEndereco.value
                       })
                 : () =>
-                      this.pessoaService.atualizarPessoaEmAndamento({
+                      this.escolaService.atualizarEscolaEmAndamento({
                           endereco: this.formDadosEndereco.value
                       });
 
-            atualizarPessoa().subscribe((res) => {
+            atualizarEscola().subscribe((res) => {
                 if (res) {
                     if (!this.formDadosEndereco.pristine) {
                         this.messageService.add({
@@ -248,9 +248,9 @@ export class DadosEnderecoComponent implements OnInit {
                         });
                     }
                     if (!this.modoEdicao) {
-                        this.pessoaService.finalizarCadastroEmAndamento();
+                        this.escolaService.finalizarCadastroEmAndamento();
                     }
-                    this.router.navigate(['/pessoas']);
+                    this.router.navigate(['/escolas']);
                 }
             });
         }

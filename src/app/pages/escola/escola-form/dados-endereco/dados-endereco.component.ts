@@ -24,13 +24,14 @@ import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
 import { EscolaService } from '../../../service/escola.service';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
+import { SelectModule } from 'primeng/select';
 
 @Component({
     selector: 'app-dados-endereco',
     templateUrl: './dados-endereco.component.html',
     styleUrls: ['./dados-endereco.component.scss'],
     providers: [MessageService],
-    imports: [CommonModule, SharedSigaeModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
+    imports: [CommonModule, SharedSigaeModule, SelectModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
 })
 export class DadosEnderecoComponent implements OnInit {
     escola: Escola = new Escola({});

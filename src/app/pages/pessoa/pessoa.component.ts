@@ -15,13 +15,15 @@ import { Municipio } from '../shared/models/endereco/municipio';
 import { Escola } from '../shared/models/escola/escola';
 import { Telefone } from '../shared/models/pessoa/telefone';
 import { Endereco } from '../shared/models/endereco/endereco';
+import { EscolaService } from '../service/escola.service';
+import { Toast, ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-pessoa',
     templateUrl: './pessoa.component.html',
     styleUrls: ['./pessoa.component.scss'],
     standalone: true,
-    imports: [CommonModule, SharedSigaeModule, TableModule, TooltipModule, ButtonModule, RippleModule],
+    imports: [CommonModule, SharedSigaeModule, ToastModule, TableModule, TooltipModule, ButtonModule, RippleModule],
     providers: [MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -64,6 +66,7 @@ export class PessoaComponent implements OnInit {
     constructor(
         private readonly router: Router,
         private readonly pessoaService: PessoaService,
+        private readonly escolaService: EscolaService,
         private readonly messageService: MessageService
     ) {}
 
@@ -78,7 +81,15 @@ export class PessoaComponent implements OnInit {
     }
 
     adicionarPessoa() {
-        this.router.navigate(['/pessoas/formulario/adicionar']);
+        this.escolaService.listarEscolasCadastradas().subscribe((res: Escola[]) => {
+            res.length === 0
+                ? this.messageService.add({
+                      severity: 'error',
+                      summary: 'Houve um erro',
+                      detail: `É preciso ter ao menos uma escola cadastrada.`
+                  })
+                : this.router.navigate(['/pessoas/formulario/adicionar']);
+        });
     }
 
     editarPessoa(idPessoa: number) {

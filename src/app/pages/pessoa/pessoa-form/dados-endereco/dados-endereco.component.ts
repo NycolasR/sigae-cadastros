@@ -24,13 +24,14 @@ import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
 import { PessoaService } from '../../../service/pessoa.service';
+import { SelectModule } from 'primeng/select';
 
 @Component({
     selector: 'app-dados-endereco',
     templateUrl: './dados-endereco.component.html',
     styleUrls: ['./dados-endereco.component.scss'],
     providers: [MessageService],
-    imports: [CommonModule, SharedSigaeModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
+    imports: [CommonModule, SharedSigaeModule, SelectModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
 })
 export class DadosEnderecoComponent implements OnInit {
     pessoa: Pessoa = new Pessoa({});

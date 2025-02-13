@@ -1,139 +1,61 @@
 <div class="form-dados-endereco-content p-grid">
-  <form [formGroup]="formDadosEndereco" (ngSubmit)="salvarDadosEndereco()">
-    <div class="p-grid p-fluid">
-      <div class="row">
-        <div class="form-group col-12 col-sm-6 mb-4">
-          <p-floatLabel>
-            <input
-              pInputText
-              id="endereco-completo-form-dados-endereco"
-              formControlName="enderecoCompleto"
-            />
-            <label for="enderecoCompleto">Endereço completo *</label>
-          </p-floatLabel>
-          <app-mensagem-alerta
-            campo="enderecoCompleto"
-            mensagem="Este campo é obrigatório."
-            tipoAlerta="required"
-            [formulario]="formDadosEndereco"
-          />
+    <form [formGroup]="formDadosEndereco" (ngSubmit)="salvarDadosEndereco()">
+        <div class="flex flex-col md:flex-row gap-8 w-full">
+            <div class="w-full">
+                <div class="card flex flex-col gap-4">
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-12 md:col-span-6 flex flex-col gap-2">
+                            <p-floatLabel class="w-full">
+                                <input class="w-full" pInputText id="endereco-completo-form-dados-endereco" formControlName="enderecoCompleto" />
+                                <label for="enderecoCompleto">Endereço completo *</label>
+                            </p-floatLabel>
+                            <app-mensagem-alerta campo="enderecoCompleto" mensagem="Este campo é obrigatório." tipoAlerta="required" [formulario]="formDadosEndereco" />
+                        </div>
+
+                        <div class="col-span-12 md:col-span-6 flex flex-col gap-2">
+                            <p-floatLabel class="w-full">
+                                <p-inputMask class="w-full" [style]="{ width: '100%' }" id="cep-form-dados-endereco" mask="99999-999" pTooltip="Preencha para completar os demais campos." tooltipPosition="top" formControlName="cep"></p-inputMask>
+                                <label for="cep">CEP</label>
+                            </p-floatLabel>
+                            <app-mensagem-alerta campo="cep" mensagem="Insira um CEP válido." tipoAlerta="cepInvalido" [formulario]="formDadosEndereco" />
+                        </div>
+
+                        <div class="col-span-12 md:col-span-4 flex flex-col gap-2">
+                            <p-floatLabel class="w-full">
+                                <p-select [style]="{ width: '100%' }" inputId="pais" formControlName="pais" [options]="paises" optionLabel="name.common" />
+                                <label for="pais">País *</label>
+                            </p-floatLabel>
+                            <app-mensagem-alerta campo="pais" mensagem="Este campo é obrigatório." tipoAlerta="required" [formulario]="formDadosEndereco" />
+                        </div>
+
+                        <div class="col-span-12 md:col-span-4 flex flex-col gap-2">
+                            <p-floatLabel class="w-full">
+                                <p-select [style]="{ width: '100%' }" *ngIf="isPaisBrasil" inputId="estado-dropdown" formControlName="estado" [options]="estados" optionLabel="sigla" />
+                                <input class="w-full" pInputText id="estado-form-dados-endereco" *ngIf="!isPaisBrasil" formControlName="estado" />
+                                <label for="estado">Estado *</label>
+                            </p-floatLabel>
+                            <app-mensagem-alerta campo="estado" mensagem="Este campo é obrigatório." tipoAlerta="required" [formulario]="formDadosEndereco" />
+                        </div>
+
+                        <div class="col-span-12 md:col-span-4 flex flex-col gap-2">
+                            <p-floatLabel class="w-full">
+                                <p-select [style]="{ width: '100%' }" *ngIf="isPaisBrasil" inputId="municipio-dropdown" formControlName="municipio" [options]="municipios" optionLabel="nome" />
+                                <input class="w-full" pInputText id="municipio-form-dados-endereco" *ngIf="!isPaisBrasil" formControlName="municipio" />
+                                <label for="municipio">Município *</label>
+                            </p-floatLabel>
+                            <app-mensagem-alerta campo="municipio" mensagem="Este campo é obrigatório." tipoAlerta="required" [formulario]="formDadosEndereco" />
+                        </div>
+
+                        <div class="col-span-12 md:col-span-2 flex flex-col gap-2">
+                            <button (click)="clicouBtnAnterior.emit(true)" class="btn btn-outline-primary"><i class="pi pi-arrow-left ml-2"></i> Anterior</button>
+                        </div>
+
+                        <div class="col-span-12 md:col-span-2 flex flex-col gap-2">
+                            <button type="submit" class="btn btn-primary">Concluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group col-12 col-sm-6 mb-4">
-          <p-floatLabel>
-            <p-inputMask
-              id="cep-form-dados-endereco"
-              mask="99999-999"
-              pTooltip="Preencha para completar os demais campos."
-              tooltipPosition="top"
-              formControlName="cep"
-            ></p-inputMask>
-            <label for="cep">CEP</label>
-          </p-floatLabel>
-          <app-mensagem-alerta
-            campo="cep"
-            mensagem="Insira um CEP válido."
-            tipoAlerta="cepInvalido"
-            [formulario]="formDadosEndereco"
-          />
-        </div>
-
-        <div class="form-group col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <p-floatLabel>
-            <p-dropdown
-              inputId="pais"
-              [options]="paises"
-              optionLabel="name.common"
-              formControlName="pais"
-            ></p-dropdown>
-            <label for="pais">País *</label>
-          </p-floatLabel>
-          <app-mensagem-alerta
-            campo="pais"
-            mensagem="Este campo é obrigatório."
-            tipoAlerta="required"
-            [formulario]="formDadosEndereco"
-          />
-        </div>
-
-        <div class="form-group col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <p-floatLabel>
-            <p-dropdown
-              *ngIf="isPaisBrasil"
-              inputId="estado-dropdown"
-              [options]="estados"
-              optionLabel="sigla"
-              formControlName="estado"
-            ></p-dropdown>
-
-            <input
-              pInputText
-              id="estado-form-dados-endereco"
-              *ngIf="!isPaisBrasil"
-              formControlName="estado"
-            />
-
-            <label for="estado">Estado *</label>
-          </p-floatLabel>
-          <app-mensagem-alerta
-            campo="estado"
-            mensagem="Este campo é obrigatório."
-            tipoAlerta="required"
-            [formulario]="formDadosEndereco"
-          />
-        </div>
-
-        <div class="form-group col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <p-floatLabel>
-            <p-dropdown
-              *ngIf="isPaisBrasil"
-              inputId="municipio-dropdown"
-              [options]="municipios"
-              optionLabel="nome"
-              formControlName="municipio"
-              tooltipPosition="top"
-              [pTooltip]="
-                formDadosEndereco.get('municipio')?.disabled
-                  ? 'Selecione um estado primeiro'
-                  : ''
-              "
-            ></p-dropdown>
-
-            <input
-              pInputText
-              id="municipio-form-dados-endereco"
-              *ngIf="!isPaisBrasil"
-              formControlName="municipio"
-            />
-            <label for="municipio">Município *</label>
-          </p-floatLabel>
-          <app-mensagem-alerta
-            campo="municipio"
-            mensagem="Este campo é obrigatório."
-            tipoAlerta="required"
-            [formulario]="formDadosEndereco"
-          />
-        </div>
-
-        <div
-          class="form-group col-12 col-sm-6 col-md-3 mb-4"
-          style="width: 136px"
-        >
-          <button
-            (click)="clicouBtnAnterior.emit(true)"
-            class="btn btn-outline-primary"
-          >
-            <i class="pi pi-arrow-left ml-2"></i> Anterior
-          </button>
-        </div>
-
-        <div
-          class="form-group col-12 col-sm-6 col-md-3 mb-4"
-          style="width: 107px"
-        >
-          <button type="submit" class="btn btn-primary">Concluir</button>
-        </div>
-      </div>
-    </div>
-  </form>
+    </form>
 </div>

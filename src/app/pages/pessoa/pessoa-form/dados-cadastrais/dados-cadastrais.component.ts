@@ -20,13 +20,14 @@ import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
 import { PessoaService } from '../../../service/pessoa.service';
+import { SelectModule } from 'primeng/select';
 
 @Component({
     selector: 'app-dados-cadastrais',
     templateUrl: './dados-cadastrais.component.html',
     styleUrls: ['./dados-cadastrais.component.scss'],
     providers: [MessageService],
-    imports: [CommonModule, SharedSigaeModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
+    imports: [CommonModule, SharedSigaeModule, SelectModule, TooltipModule, ButtonModule, StepperModule, CheckboxModule, DropdownModule, FloatLabelModule, InputTextModule, InputMaskModule, FormsModule, RippleModule, ReactiveFormsModule]
 })
 export class DadosCadastraisComponent implements OnInit {
     pessoa: Pessoa = new Pessoa({});

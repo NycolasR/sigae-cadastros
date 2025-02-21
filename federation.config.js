@@ -2,7 +2,7 @@ const { withNativeFederation, shareAll } = require('@angular-architects/native-f
 
 module.exports = withNativeFederation({
 
-  name: 'sigae-cadastros',
+  name: 'cadastros',
 
   exposes: {
     './Component': './src/app.component.ts',
@@ -28,11 +28,20 @@ module.exports = withNativeFederation({
       build: "separate",
     },
     '@primeng/themes/lara/accordion': {
+      transient: true,
       packageInfo: {
         entryPoint: 'node_modules/@primeng/themes/lara/accordion/index.mjs',
         version: '19.0.5',
         esm: true
       }
+    },
+    "primeicons": {
+      transient: true,
+      packageInfo: {
+        entryPoint: "node_modules/primeicons/package.json",
+        version: "7.0.0",
+        esm: true,
+      },
     },
   },
 

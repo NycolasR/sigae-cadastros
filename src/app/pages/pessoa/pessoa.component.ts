@@ -1,9 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Pessoa } from '../shared/models/pessoa/pessoa';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { PessoaService } from '../service/pessoa.service';
+import { PessoaService } from '../../services/pessoa.service';
 import { SharedSigaeModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -15,7 +15,7 @@ import { Municipio } from '../shared/models/endereco/municipio';
 import { Escola } from '../shared/models/escola/escola';
 import { Telefone } from '../shared/models/pessoa/telefone';
 import { Endereco } from '../shared/models/endereco/endereco';
-import { EscolaService } from '../service/escola.service';
+import { EscolaService } from '../../services/escola.service';
 import { Toast, ToastModule } from 'primeng/toast';
 
 @Component({
@@ -27,7 +27,7 @@ import { Toast, ToastModule } from 'primeng/toast';
     providers: [MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PessoaComponent implements OnInit {
+export class PessoaComponent implements OnInit, OnDestroy {
     pessoas!: Pessoa[];
 
     colunas = [
@@ -72,10 +72,20 @@ export class PessoaComponent implements OnInit {
 
     ngOnInit() {
         this.listarPessoasCadastradas();
+        this.observaLocalStorage();
+    }
+
+    ngOnDestroy(): void {
+        window.removeEventListener('storageChanged', () => {  });
+    }
+
+    observaLocalStorage() {
+        window.addEventListener("storageChanged", () => { this.listarPessoasCadastradas() });
     }
 
     listarPessoasCadastradas(): void {
         this.pessoaService.listarPessoasCadastradas().subscribe((res: Pessoa[]) => {
+            console.log(res);
             this.pessoas = res;
         });
     }

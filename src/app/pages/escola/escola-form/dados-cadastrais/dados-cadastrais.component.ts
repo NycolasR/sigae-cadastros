@@ -5,7 +5,7 @@ import { validarCNPJ, validarCPF } from '../../../shared/validadores/documento-v
 import { MSG_FORMULARIO_INVALIDO, MSG_PREENCHIMENTO_INCORRETO } from '../../../shared/mensagens/mensagens';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 import { Router } from '@angular/router';
-import { EscolaService } from '../../../service/escola.service';
+import { EscolaService } from '../../../../services/escola.service';
 import { Escola } from '../../../shared/models/escola/escola';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';

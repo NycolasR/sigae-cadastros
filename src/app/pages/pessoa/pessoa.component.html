@@ -5,7 +5,7 @@
         <div class="d-flex align-items-center">
             <button pButton pRipple label="Adicionar" (click)="adicionarPessoa()" class="btn btn-primary w-24"></button>
             <div style="margin-left: 1rem">
-                <h4 class="fw-semibold">Total de pessoas cadastradas: {{ pessoas.length }}</h4>
+                <h4 class="fw-semibold">Total de pessoas cadastradas: {{ pessoas ? pessoas.length : 0 }}</h4>
             </div>
         </div>
         <div class="border mt-3">

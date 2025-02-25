@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-
-import { Observable, of, throwError } from 'rxjs';
-
-import { Pessoa } from '../shared/models/pessoa/pessoa';
+import { map, Observable, of, throwError } from 'rxjs';
+import { Pessoa } from '../pages/shared/models/pessoa/pessoa';
+import { MenuMasterService } from './menu-master.service';
+import { MenuMaster } from '../models/menu-master';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -11,18 +12,45 @@ export class PessoaService {
     private storageKey = 'pessoas';
     private pessoaEmAndamentoKey = 'pessoaEmAndamento';
 
-    constructor() {
-        if (!localStorage.getItem(this.storageKey)) {
-            localStorage.setItem(this.storageKey, JSON.stringify([]));
-        }
-        if (!localStorage.getItem(this.pessoaEmAndamentoKey)) {
-            localStorage.setItem(this.pessoaEmAndamentoKey, JSON.stringify(null));
-        }
+    constructor(
+        private menuMasterService: MenuMasterService,
+        private http: HttpClient
+    ) {
+        // if (!localStorage.getItem(this.storageKey)) {
+        //     localStorage.setItem(this.storageKey, JSON.stringify([]));
+        // }
+        // if (!localStorage.getItem(this.pessoaEmAndamentoKey)) {
+        //     localStorage.setItem(this.pessoaEmAndamentoKey, JSON.stringify(null));
+        // }
+    }
+
+    filtraPessoas(pessoas) {
+        const filtro = this.menuMasterService.getFiltro();
+        console.log(pessoas);
+        console.log(filtro);
+        return pessoas.filter((p) => {
+            if(!!filtro && (!!filtro?.escola && !!filtro?.escola.id) || (!!filtro?.pessoa && !!filtro?.pessoa.id)) {
+                if(!!filtro?.pessoa && !!filtro?.pessoa.id) {
+                    return (p.cadastroFinalizado && p.id == filtro?.pessoa.id);
+                } else if((!!filtro?.escola && !!filtro?.escola.id)) {
+                    return (p.cadastroFinalizado && p.escola.id == filtro?.escola.id);
+                }
+            }
+            return p.cadastroFinalizado;
+        });
     }
 
     listarPessoasCadastradas(): Observable<Pessoa[]> {
-        const pessoas = this.getPessoasFromStorage()?.filter((p) => p.cadastroFinalizado) || [];
-        return of(pessoas);
+        if(this.possuiPessoasInStorage()) {
+            const pessoas = this.filtraPessoas(this.getPessoasFromStorage()) || [];
+            return of(pessoas);
+        }
+
+        return this.http.get<any[]>("https://example.com/pessoas").pipe(
+            map(pessoas => 
+              this.filtraPessoas(pessoas)
+            )
+          );
     }
 
     buscarPorId(id: number): Observable<Pessoa | undefined> {
@@ -120,6 +148,10 @@ export class PessoaService {
         this.savePessoasToStorage(pessoas);
         this.savePessoaEmAndamentoToStorage(null);
         return of(pessoaEmAndamento);
+    }
+
+    private possuiPessoasInStorage(): boolean {
+        return !!localStorage.getItem(this.storageKey);
     }
 
     private getPessoasFromStorage(): Pessoa[] {

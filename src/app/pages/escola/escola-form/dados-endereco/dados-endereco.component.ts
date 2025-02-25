@@ -22,7 +22,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
-import { EscolaService } from '../../../service/escola.service';
+import { EscolaService } from '../../../../services/escola.service';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 import { SelectModule } from 'primeng/select';
 

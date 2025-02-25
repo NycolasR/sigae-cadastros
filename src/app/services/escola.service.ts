@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { Escola } from '../shared/models/escola/escola';
+import { Escola } from '../pages/shared/models/escola/escola';
 
 @Injectable({
     providedIn: 'root'

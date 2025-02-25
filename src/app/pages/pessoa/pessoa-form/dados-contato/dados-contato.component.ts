@@ -18,7 +18,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
-import { PessoaService } from '../../../service/pessoa.service';
+import { PessoaService } from '../../../../services/pessoa.service';
 
 @Component({
     selector: 'app-dados-contato',

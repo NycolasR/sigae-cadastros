@@ -1,4 +1,4 @@
-import { EscolaService } from '../service/escola.service';
+import { EscolaService } from '../../services/escola.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MessageService } from 'primeng/api';

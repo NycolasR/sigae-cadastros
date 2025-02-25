@@ -26,8 +26,6 @@ export class PessoaService {
 
     filtraPessoas(pessoas) {
         const filtro = this.menuMasterService.getFiltro();
-        console.log(pessoas);
-        console.log(filtro);
         return pessoas.filter((p) => {
             if(!!filtro && (!!filtro?.escola && !!filtro?.escola.id) || (!!filtro?.pessoa && !!filtro?.pessoa.id)) {
                 if(!!filtro?.pessoa && !!filtro?.pessoa.id) {

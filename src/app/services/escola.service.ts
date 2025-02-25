@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { map, Observable, of, throwError } from 'rxjs';
 import { Escola } from '../pages/shared/models/escola/escola';
+import { HttpClient } from '@angular/common/http';
+import { MenuMasterService } from './menu-master.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,18 +11,41 @@ export class EscolaService {
     private storageKey = 'escolas';
     private escolaEmAndamentoKey = 'escolaEmAndamento';
 
-    constructor() {
-        if (!localStorage.getItem(this.storageKey)) {
-            localStorage.setItem(this.storageKey, JSON.stringify([]));
-        }
-        if (!localStorage.getItem(this.escolaEmAndamentoKey)) {
-            localStorage.setItem(this.escolaEmAndamentoKey, JSON.stringify(null));
-        }
+    constructor(
+        private menuMasterService: MenuMasterService,
+        private http: HttpClient
+    ) {
+        // if (!localStorage.getItem(this.storageKey)) {
+        //     localStorage.setItem(this.storageKey, JSON.stringify([]));
+        // }
+        // if (!localStorage.getItem(this.escolaEmAndamentoKey)) {
+        //     localStorage.setItem(this.escolaEmAndamentoKey, JSON.stringify(null));
+        // }
+    }
+    
+    filtraEscolas(escolas) {
+        const filtro = this.menuMasterService.getFiltro();
+        return escolas.filter((e) => {
+            if(!!filtro && !!filtro?.escola && !!filtro?.escola.id){
+                return (e.cadastroFinalizado && e.id == filtro?.escola.id);
+            }
+            return e.cadastroFinalizado;
+        });
     }
 
     listarEscolasCadastradas(): Observable<Escola[]> {
-        const escolas = this.getEscolasFromStorage()?.filter((p) => p.cadastroFinalizado) || [];
-        return of(escolas);
+        if(this.possuiEscolasInStorage()) {
+            const escolas = this.filtraEscolas(this.getEscolasFromStorage()) || [];
+            return of(escolas);
+        }
+        console.log("listarEscolasCadastradas");
+
+        return this.http.get<any[]>("https://example.com/escolas").pipe(
+            map(escolas => 
+                this.filtraEscolas(escolas)
+            )
+        );
+
     }
 
     buscarPorId(id: number): Observable<Escola | undefined> {
@@ -117,6 +142,10 @@ export class EscolaService {
         this.saveEscolasToStorage(escolas);
         this.saveEscolaEmAndamentoToStorage(null);
         return of(escolaEmAndamento);
+    }
+
+    private possuiEscolasInStorage(): boolean {
+        return !!localStorage.getItem(this.storageKey);
     }
 
     private getEscolasFromStorage(): Escola[] {

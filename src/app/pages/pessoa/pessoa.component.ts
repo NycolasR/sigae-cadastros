@@ -85,7 +85,6 @@ export class PessoaComponent implements OnInit, OnDestroy {
 
     listarPessoasCadastradas(): void {
         this.pessoaService.listarPessoasCadastradas().subscribe((res: Pessoa[]) => {
-            console.log(res);
             this.pessoas = res;
         });
     }

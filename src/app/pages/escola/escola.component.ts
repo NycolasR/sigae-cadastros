@@ -1,5 +1,5 @@
 import { EscolaService } from '../../services/escola.service';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -9,10 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { Estado } from '../shared/models/endereco/estado';
-import { Municipio } from '../shared/models/endereco/municipio';
 import { Escola } from '../shared/models/escola/escola';
-import { Endereco } from '../shared/models/endereco/endereco';
 
 @Component({
     selector: 'app-escola',
@@ -23,7 +20,7 @@ import { Endereco } from '../shared/models/endereco/endereco';
     providers: [MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class EscolaComponent implements OnInit {
+export class EscolaComponent implements OnInit, OnDestroy {
     escolas!: Escola[];
 
     colunas = [
@@ -52,6 +49,15 @@ export class EscolaComponent implements OnInit {
 
     ngOnInit() {
         this.listarEscolasCadastradas();
+        this.observaLocalStorage();
+    }
+
+    ngOnDestroy(): void {
+        window.removeEventListener('storageChanged', () => {  });
+    }
+
+    observaLocalStorage() {
+        window.addEventListener("storageChanged", () => { this.listarEscolasCadastradas() });
     }
 
     listarEscolasCadastradas(): void {

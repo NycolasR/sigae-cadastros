@@ -1,54 +1,58 @@
-<div class="content">
-    <app-titulo-pagina titulo="Escolas" />
-
-    <div class="mx-3 mb-5">
-        <div class="d-flex align-items-center">
-            <button pButton pRipple label="Adicionar" (click)="adicionarEscola()" class="btn btn-primary w-24"></button>
-            <div style="margin-left: 1rem">
-                <h4 class="fw-semibold">Total de escolas cadastradas: {{ escolas ? escolas.length : 0 }}</h4>
-            </div>
+<div class="card">
+    
+    @if(this.isAuthenticated) {
+        <div class="flex justify-end mb-4">
+            <p>Usuário: {{ this.getName() }}</p>
         </div>
-        <div class="border mt-3">
-            <p-table [value]="escolas" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[5, 10, 20]">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th scope="col" [style]="coluna.width" [pSortableColumn]="coluna.field" *ngFor="let coluna of colunas">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="w-fit">{{ coluna.header }}</p>
-                                <p-sortIcon [field]="coluna.field" />
-                            </div>
-                        </th>
-                        <th style="width: 7em">Ações</th>
-                    </tr>
-                </ng-template>
+    } 
 
-                <ng-template pTemplate="body" let-escola let-rowIndex="rowIndex">
-                    <tr>
-                        <td>{{ escola.nome }}</td>
-                        <td>{{ escola.cnpj ?? '-' }}</td>
-                        <td>
-                            {{ escola.endereco?.municipio?.nome || escola.endereco?.municipio }}
-                            -
-                            {{ escola.endereco?.estado?.sigla || escola.endereco?.estado.nome }}
-                        </td>
-                        <td>
-                            <div class="flex-container">
-                                <button class="mr-3" (click)="editarEscola(escola.id)" pTooltip="Editar escola" tooltipPosition="top">
-                                    <i class="pi pi-pencil"></i>
-                                </button>
-                                <button (click)="excluirEscola(escola.id)" pTooltip="Excluir escola" tooltipPosition="top">
-                                    <i class="pi pi-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="7" class="text-center">Não existem escolas cadastradas.</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
+    <div class="flex justify-between">
+        <div class="font-semibold text-xl mb-4">Escolas</div>
+
+        <a routerLink="./formulario/adicionar" class="p-button font-bold">
+            Cadastrar
+        </a>
     </div>
+
+    <div class="flex items-center ml-2 mb-4">
+        <p class="font-semibold">Total de escolas cadastradas: {{ escolas ? escolas.length : 0 }}</p>
+    </div>
+
+    <p-table [value]="escolas" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[5, 10, 20]">
+        <ng-template #header>
+            <tr>
+                <th scope="col" [style]="coluna.width" [pSortableColumn]="coluna.field" *ngFor="let coluna of colunas">
+                    <div class="flex justify-between items-center">
+                        <p class="w-fit">{{ coluna.header }}</p>
+                        <p-sortIcon [field]="coluna.field" />
+                    </div>
+                </th>
+                <th style="width: 7em"></th>
+            </tr>
+        </ng-template>
+
+        <ng-template #body let-escola>
+            <tr>
+                <td>{{ escola.nome }}</td>
+                <td>{{ escola.cnpj ?? '-' }}</td>
+                <td>
+                    {{ escola.endereco?.municipio?.nome || escola.endereco?.municipio }}
+                    -
+                    {{ escola.endereco?.estado?.sigla || escola.endereco?.estado.nome }}
+                </td>
+
+                <td>
+                    <a routerLink="./formulario/editar/{{ escola.id }}" class="p-button p-button-icon-only p-button-text font-bold" aria-label="Editar">
+                        <i class="pi pi-pencil"></i>
+                    </a>
+                    <p-button icon="pi pi-trash" aria-label="Excluir" (onClick)="excluirEscola(escola.id)" [text]="true" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="7" class="text-center">Não existem escolas cadastradas.</td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>

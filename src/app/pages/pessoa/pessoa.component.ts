@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/c
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Pessoa } from '../shared/models/pessoa/pessoa';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PessoaService } from '../../services/pessoa.service';
 import { SharedSigaeModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,7 @@ import { Toast, ToastModule } from 'primeng/toast';
     templateUrl: './pessoa.component.html',
     styleUrls: ['./pessoa.component.scss'],
     standalone: true,
-    imports: [CommonModule, SharedSigaeModule, ToastModule, TableModule, TooltipModule, ButtonModule, RippleModule],
+    imports: [CommonModule, SharedSigaeModule, ToastModule, TableModule, TooltipModule, ButtonModule, RippleModule, RouterModule],
     providers: [MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -39,11 +39,6 @@ export class PessoaComponent implements OnInit, OnDestroy {
         {
             field: 'cpf',
             header: 'CPF',
-            width: 'width: 15rem'
-        },
-        {
-            field: 'cnpj',
-            header: 'CNPJ',
             width: 'width: 15rem'
         },
         {

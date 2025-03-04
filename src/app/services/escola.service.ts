@@ -38,7 +38,6 @@ export class EscolaService {
             const escolas = this.filtraEscolas(this.getEscolasFromStorage()) || [];
             return of(escolas);
         }
-        console.log("listarEscolasCadastradas");
 
         return this.http.get<any[]>("https://example.com/escolas").pipe(
             map(escolas => 

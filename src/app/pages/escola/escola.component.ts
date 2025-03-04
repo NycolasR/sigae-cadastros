@@ -1,8 +1,7 @@
 import { EscolaService } from '../../services/escola.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SharedSigaeModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -10,18 +9,23 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Escola } from '../shared/models/escola/escola';
+import { AutenticacaoService } from 'autenticacao';
+import { User } from '@auth0/auth0-angular';
 
 @Component({
     selector: 'app-escola',
     templateUrl: './escola.component.html',
     styleUrls: ['./escola.component.scss'],
     standalone: true,
-    imports: [CommonModule, SharedSigaeModule, TableModule, TooltipModule, ButtonModule, RippleModule],
+    imports: [CommonModule, SharedSigaeModule, TableModule, TooltipModule, ButtonModule, RouterModule],
     providers: [MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class EscolaComponent implements OnInit, OnDestroy {
     escolas!: Escola[];
+
+    isAuthenticated: boolean;
+    usuario: User | null | undefined;
 
     colunas = [
         {
@@ -44,8 +48,11 @@ export class EscolaComponent implements OnInit, OnDestroy {
     constructor(
         private readonly router: Router,
         private readonly escolaService: EscolaService,
+        private autenticacaoService: AutenticacaoService,
         private readonly messageService: MessageService
-    ) {}
+    ) {
+        this.checkUsuarioLogado();
+    }
 
     ngOnInit() {
         this.listarEscolasCadastradas();
@@ -54,6 +61,21 @@ export class EscolaComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         window.removeEventListener('storageChanged', () => {  });
+    }
+
+    async checkUsuarioLogado() {
+        await this.autenticacaoService.isAuthenticated.subscribe({ next:(v) => this.isAuthenticated = v, error: (e) => this.isAuthenticated = false});
+        await this.autenticacaoService.user.subscribe({ next:(v) => this.usuario = v, error: (e) => console.error(e)});
+        console.log("isAuthenticated", this.isAuthenticated);
+        console.log("usuario", this.usuario);
+    }
+    
+    getName(): string {
+        if(!!this.usuario && !!this.usuario.name) {
+            let names = this.usuario?.name.split('@');
+            return names[0];
+        }
+        return "";
     }
 
     observaLocalStorage() {

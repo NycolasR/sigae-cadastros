@@ -6,7 +6,7 @@ import { MSG_FORMULARIO_INVALIDO, MSG_PREENCHIMENTO_INCORRETO } from '../../../s
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 import { Pessoa } from '../../../shared/models/pessoa/pessoa';
 import { Router } from '@angular/router';
-import { EscolaService } from '../../../service/escola.service';
+import { EscolaService } from '../../../../services/escola.service';
 import { Escola } from '../../../shared/models/escola/escola';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -19,7 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StepperModule } from 'primeng/stepper';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedSigaeModule } from '../../../shared/shared.module';
-import { PessoaService } from '../../../service/pessoa.service';
+import { PessoaService } from '../../../../services/pessoa.service';
 import { SelectModule } from 'primeng/select';
 
 @Component({

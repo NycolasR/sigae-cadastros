@@ -45,6 +45,14 @@ module.exports = withNativeFederation({
         esm: true,
       },
     },
+    "autenticacao": {
+      transient: true,
+      packageInfo: {
+        entryPoint: "node_modules/autenticacao/fesm2022/autenticacao.mjs",
+        version: "0.0.1",
+        esm: true,
+      },
+    },
   },
 
   skip: [

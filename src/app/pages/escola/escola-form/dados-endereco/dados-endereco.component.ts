@@ -251,7 +251,7 @@ export class DadosEnderecoComponent implements OnInit {
                     if (!this.modoEdicao) {
                         this.escolaService.finalizarCadastroEmAndamento();
                     }
-                    this.router.navigate(['/escolas']);
+                    this.router.navigate(['/cadastros/escolas']);
                 }
             });
         }

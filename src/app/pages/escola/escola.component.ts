@@ -61,11 +61,11 @@ export class EscolaComponent implements OnInit {
     }
 
     adicionarEscola() {
-        this.router.navigate(['/escolas/formulario/adicionar']);
+        this.router.navigate(['/cadastros/escolas/formulario/adicionar']);
     }
 
     editarEscola(idEscola: number) {
-        this.router.navigate([`/escolas/formulario/editar/${idEscola}`]);
+        this.router.navigate([`/cadastros/escolas/formulario/editar/${idEscola}`]);
     }
 
     excluirEscola(idEscola: number): void {

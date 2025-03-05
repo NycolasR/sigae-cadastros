@@ -65,7 +65,7 @@ export class DadosCadastraisComponent implements OnInit {
                     summary: 'Houve um erro',
                     detail: `Não foi possível obter a escola com o ID informado.`
                 });
-                this.router.navigate(['/escolas']);
+                this.router.navigate(['/cadastros/escolas']);
             }
         });
     }

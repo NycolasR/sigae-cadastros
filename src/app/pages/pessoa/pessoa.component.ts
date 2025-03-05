@@ -88,12 +88,12 @@ export class PessoaComponent implements OnInit {
                       summary: 'Houve um erro',
                       detail: `É preciso ter ao menos uma escola cadastrada.`
                   })
-                : this.router.navigate(['/pessoas/formulario/adicionar']);
+                : this.router.navigate(['/cadastros/pessoas/formulario/adicionar']);
         });
     }
 
     editarPessoa(idPessoa: number) {
-        this.router.navigate([`/pessoas/formulario/editar/${idPessoa}`]);
+        this.router.navigate([`/cadastros/pessoas/formulario/editar/${idPessoa}`]);
     }
 
     excluirPessoa(idPessoa: number): void {

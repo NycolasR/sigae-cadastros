@@ -119,6 +119,10 @@ export class EscolaService {
         return of(escolaEmAndamento);
     }
 
+    obterTotalDeEscolas(): number {
+        return this.getEscolasFromStorage().length;
+    }
+
     private getEscolasFromStorage(): Escola[] {
         const escolas = localStorage.getItem(this.storageKey);
         return escolas ? JSON.parse(escolas) : [];

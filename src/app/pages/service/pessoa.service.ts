@@ -110,6 +110,10 @@ export class PessoaService {
         return of(false);
     }
 
+    obterTotalDePessoas(): number {
+        return this.getPessoasFromStorage().length;
+    }
+
     finalizarCadastroEmAndamento(): Observable<Pessoa | null> {
         const pessoaEmAndamento = this.getPessoaEmAndamentoFromStorage();
         if (!pessoaEmAndamento) {

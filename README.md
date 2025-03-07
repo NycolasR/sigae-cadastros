@@ -33,7 +33,7 @@ Este repositório contém o microfrontend _cadastros_ do projeto SIGAE.
    ```sh
    npm start
    ```
-   A aplicação estará disponível em `http://localhost:4200`.
+   A aplicação estará disponível em `http://localhost:4202`.
 
 ## Configuração dos Microfrontends
 

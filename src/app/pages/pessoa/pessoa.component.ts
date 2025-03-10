@@ -93,7 +93,7 @@ export class PessoaComponent implements OnInit, OnDestroy {
     }
 
     editarPessoa(idPessoa: number) {
-        this.router.navigate([`/pessoas/formulario/editar/${idPessoa}`]);
+        this.router.navigate([`/cadastros/pessoas/formulario/editar/${idPessoa}`]);
     }
 
     excluirPessoa(idPessoa: number): void {

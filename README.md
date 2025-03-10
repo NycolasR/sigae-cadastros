@@ -1,59 +1,62 @@
-# Sakai19
+# SIGAE Open Source - Microfrontend de Cadastros
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+Este repositório contém o microfrontend _cadastros_ do projeto SIGAE.
 
-## Development server
+## Tecnologias Utilizadas
 
-To start a local development server, run:
+- **Angular 19** (Standalone)
+- **Native Federation 19**
+- **PrimeNG**
+- **Primeicons**
+- **Tailwind**
+- **MSW**
 
-```bash
-ng serve
+## Configuração e Execução
+
+1. **Clone o repositório:**
+   ```sh
+   https://github.com/NycolasR/sigae-cadastros.git
+   cd sigae-cadastros
+   ```
+
+2. **Instale as dependências:**
+   ```sh
+   npm install
+   ```
+
+3. **Estabeleça o link com o repositório _sigae-autenticacao_**
+   ```sh
+   npm link autenticacao
+   ```
+
+4. **Inicie a aplicação:**
+   ```sh
+   npm start
+   ```
+   A aplicação estará disponível em `http://localhost:4202`.
+
+## Configuração dos Microfrontends
+
+A aplicação _sigae-cadastros_ é um dos microfrontends que são carregados dinamicamente na aplicação _host_. Certifique-se de que o arquivo `federation.manifest.json` está corretamente configurado expondo os componentes certos.
+
+Exemplo de configuração:
+```ts
+  exposes: {
+    './Component': './src/app.component.ts',
+    "./routes": "./src/app.routes.ts",
+    './EscolaService': './src/app/services/escola.service.ts',
+    './PessoaService': './src/app/services/pessoa.service.ts'
+  }
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Contribuição
 
-## Code scaffolding
+1. Fork o repositório.
+2. Crie uma branch para sua feature.
+3. Realize as modificações e commit.
+4. Envie um Pull Request.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Licença
 
-```bash
-ng generate component component-name
-```
+Este projeto está sob a licença MIT.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

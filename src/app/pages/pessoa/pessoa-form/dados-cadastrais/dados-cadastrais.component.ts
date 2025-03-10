@@ -75,7 +75,7 @@ export class DadosCadastraisComponent implements OnInit {
                     summary: 'Houve um erro',
                     detail: `Não foi possível obter a pessoa com o ID informado.`
                 });
-                this.router.navigate(['/pessoa']);
+                this.router.navigate(['/cadastros/pessoa']);
             }
         });
     }

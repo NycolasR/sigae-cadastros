@@ -22,29 +22,24 @@ export class EscolaService {
         //     localStorage.setItem(this.escolaEmAndamentoKey, JSON.stringify(null));
         // }
     }
-    
+
     filtraEscolas(escolas) {
         const filtro = this.menuMasterService.getFiltro();
         return escolas.filter((e) => {
-            if(!!filtro && !!filtro?.escola && !!filtro?.escola.id){
-                return (e.cadastroFinalizado && e.id == filtro?.escola.id);
+            if (!!filtro && !!filtro?.escola && !!filtro?.escola.id) {
+                return e.cadastroFinalizado && e.id == filtro?.escola.id;
             }
             return e.cadastroFinalizado;
         });
     }
 
     listarEscolasCadastradas(): Observable<Escola[]> {
-        if(this.possuiEscolasInStorage()) {
+        if (this.possuiEscolasInStorage()) {
             const escolas = this.filtraEscolas(this.getEscolasFromStorage()) || [];
             return of(escolas);
         }
 
-        return this.http.get<any[]>("https://example.com/escolas").pipe(
-            map(escolas => 
-                this.filtraEscolas(escolas)
-            )
-        );
-
+        return this.http.get<any[]>('https://example.com/escolas').pipe(map((escolas) => this.filtraEscolas(escolas)));
     }
 
     buscarPorId(id: number): Observable<Escola | undefined> {
@@ -141,6 +136,10 @@ export class EscolaService {
         this.saveEscolasToStorage(escolas);
         this.saveEscolaEmAndamentoToStorage(null);
         return of(escolaEmAndamento);
+    }
+
+    obterTotalDeEscolas(): number {
+        return this.getEscolasFromStorage().length;
     }
 
     private possuiEscolasInStorage(): boolean {

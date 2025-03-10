@@ -1,8 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { Pessoa } from '../shared/models/pessoa/pessoa';
 import { MessageService } from 'primeng/api';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PessoaService } from '../../services/pessoa.service';
 import { SharedSigaeModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -10,13 +9,9 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { Estado } from '../shared/models/endereco/estado';
-import { Municipio } from '../shared/models/endereco/municipio';
 import { Escola } from '../shared/models/escola/escola';
-import { Telefone } from '../shared/models/pessoa/telefone';
-import { Endereco } from '../shared/models/endereco/endereco';
 import { EscolaService } from '../../services/escola.service';
-import { Toast, ToastModule } from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-pessoa',
@@ -60,7 +55,8 @@ export class PessoaComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly router: Router,
-        private readonly pessoaService: PessoaService,
+        private readonly pessoaService: PessoaService,        
+        private readonly route: ActivatedRoute,
         private readonly escolaService: EscolaService,
         private readonly messageService: MessageService
     ) {}
@@ -92,7 +88,7 @@ export class PessoaComponent implements OnInit, OnDestroy {
                       summary: 'Houve um erro',
                       detail: `É preciso ter ao menos uma escola cadastrada.`
                   })
-                : this.router.navigate(['/pessoas/formulario/adicionar']);
+                : this.router.navigate(['formulario/adicionar'], { relativeTo: this.route });
         });
     }
 

@@ -11,7 +11,7 @@ import { Cep } from '../../../shared/models/endereco/cep';
 import { Municipio } from './../../../shared/models/endereco/municipio';
 import { Escola } from '../../../shared/models/escola/escola';
 import { Endereco } from './../../../shared/models/endereco/endereco';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -48,7 +48,8 @@ export class DadosEnderecoComponent implements OnInit {
     clicouBtnAnterior = output<boolean>();
 
     constructor(
-        private readonly router: Router,
+        private readonly router: Router,    
+        private readonly route: ActivatedRoute,
         private readonly formBuilder: FormBuilder,
         private readonly escolaService: EscolaService,
         private readonly messageService: MessageService,
@@ -250,8 +251,10 @@ export class DadosEnderecoComponent implements OnInit {
                     }
                     if (!this.modoEdicao) {
                         this.escolaService.finalizarCadastroEmAndamento();
+                        this.router.navigate(['../..'], { relativeTo: this.route });
+                        return;
                     }
-                    this.router.navigate(['/escolas']);
+                    this.router.navigate(['../../..'], { relativeTo: this.route });
                 }
             });
         }

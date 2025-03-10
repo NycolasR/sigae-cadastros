@@ -12,7 +12,7 @@ import { Municipio } from './../../../shared/models/endereco/municipio';
 import { Pessoa } from '../../../shared/models/pessoa/pessoa';
 import { FormularioService } from '../../../shared/services/formulario/formulario.service';
 import { Endereco } from './../../../shared/models/endereco/endereco';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -49,7 +49,8 @@ export class DadosEnderecoComponent implements OnInit {
 
     constructor(
         private readonly router: Router,
-        private readonly formBuilder: FormBuilder,
+        private readonly formBuilder: FormBuilder,        
+        private readonly route: ActivatedRoute,
         private readonly pessoaService: PessoaService,
         private readonly messageService: MessageService,
         private readonly enderecoService: EnderecoService,
@@ -250,8 +251,10 @@ export class DadosEnderecoComponent implements OnInit {
                     }
                     if (!this.modoEdicao) {
                         this.pessoaService.finalizarCadastroEmAndamento();
+                        this.router.navigate(['../..'], { relativeTo: this.route });
+                        return;
                     }
-                    this.router.navigate(['/pessoas']);
+                    this.router.navigate(['../../..'], { relativeTo: this.route });
                 }
             });
         }

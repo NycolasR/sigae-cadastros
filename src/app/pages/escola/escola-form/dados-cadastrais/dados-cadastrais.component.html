@@ -20,7 +20,12 @@
                             <app-mensagem-alerta campo="cnpj" mensagem="Insira um CNPJ válido." tipoAlerta="documentoInvalido" [formulario]="formDadosCadastrais" />
                         </div>
                         <div class="col-span-12 md:col-span-2 flex flex-col gap-2">
-                            <button type="submit" class="btn btn-primary">Próximo <i class="pi pi-arrow-right ml-2"></i></button>
+                            <!-- <button type="submit" class="btn btn-primary">Avançar <i class="pi pi-arrow-right ml-2"></i></button> -->
+                            <p-button 
+                                label="Avançar" 
+                                icon="pi pi-arrow-right" 
+                                iconPos="right" 
+                                type="submit" />
                         </div>
                     </div>
                 </div>
